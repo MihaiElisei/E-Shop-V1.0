@@ -38,13 +38,13 @@
             </div>
             <div class="col-lg col-sm col-md col-6 flex-grow-0">
                 <div class="category-wrap dropdown d-inline-block float-right">
-                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                    <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i> All Categories
                     </button>
                     <div class="dropdown-menu">
-                        <!-- Loop Categories -->
-                        <a class="dropdown-item" href="#">Category Name</a>
-                        
+                        {% for category in categories %}
+                            <a class="dropdown-item" href="{{ category.get_url }}">{{ category.name }}</a>
+                        {% endfor %}
                     </div>
                 </div> 
             </div> 

@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col text-center mt-3">
+            <h2 class="logo-font">Products</h2>
+            <hr class="w-50 mb-1">
+        </div>
+    </div>
+    <div class="row mt-5 ">
+        <div class="col-lg-2">
+            <div class="card filter-card">
+                <div class="filter-group">
+                    <div class="card-header">
+                        <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true">
+                            <i class="icon-control fa fa-chevron-down text-black"></i>
+                            <h6 class="title text-black">Categories</h6>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse show" id="collapse_1">
+                        <div class="card-body">
+                            <ul class="list-menu">
+                                {% for category in categories %}
+                                <li><a class="text-black" href="{{ category.get_url }}">{{ category.name }}</a></li>
+                                {% endfor %}
+                                <li><a class="text-black" href="{% url 'products' %}">All Products</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <div class="card-header">
+                        <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true">
+                            <i class="icon-control fa fa-chevron-down text-black"></i>
+                            <h6 class="title text-black">All Products</h6>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse show mt-2" id="collapse_2">
+                        <ul class="list-menu">
+                            <li><a class="text-black" href="{% url 'products' %}?sort=price&direction=asc">By Price</a>
+                            </li>
+                            <li><a class="text-black" href="{% url 'products' %}?sort=rating&direction=desc">By
+                                    Rating</a></li>
+                            <li><a class="text-black" href="{% url 'products' %}?sort=category&direction=asc">By
+                                    Category</a></li>
+                            <li><a class="text-black" href="{% url 'products' %}">All Products</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <div class="card-header">
+                        <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true">
+                            <i class="icon-control fa fa-chevron-down text-black"></i>
+                            <h6 class="title text-black">Sizes </h6>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse show" id="collapse_4">
+                        <div class="card-body">
+                            <label class="checkbox-btn">
+                                <input type="checkbox">
+                                <span class="btn btn-sm"> S </span>
+                            </label>
+                            <label class="checkbox-btn">
+                                <input type="checkbox">
+                                <span class="btn btn-sm"> M </span>
+                            </label>
+
+                            <label class="checkbox-btn">
+                                <input type="checkbox">
+                                <span class="btn btn-sm"> L </span>
+                            </label>
+
+                            <label class="checkbox-btn">
+                                <input type="checkbox">
+                                <span class="btn btn-sm"> XL </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <div class="card-header">
+                            <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true">
+                                <i class="icon-control fa fa-chevron-down text-black"></i>
+                                <h6 class="title text-black">Price range</h6>
+                            </a>
+                        </div>
+                        <div class="filter-content collapse show" id="collapse_3">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Min</label>
+                                        <select class="mr-2 form-control border-black">
+                                            <option value="0">$0</option>
+                                            <option value="50">$50</option>
+                                            <option value="100">$100</option>
+                                            <option value="150">$150</option>
+                                            <option value="200">$200</option>
+                                            <option value="500">$500</option>
+                                            <option value="1000">$1000</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group text-right col-md-6">
+                                        <label>Max</label>
+                                        <select class="mr-2 form-control border-black">
+                                            <option value="50">$50</option>
+                                            <option value="100">$100</option>
+                                            <option value="150">$150</option>
+                                            <option value="200">$200</option>
+                                            <option value="500">$500</option>
+                                            <option value="1000">$1000</option>
+                                            <option value="2000">$2000+</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-block btn-black">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-10 col-md-12">
+            <div class="row">
+                {% for product in products %}
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <div class="card border-0">
+                        {% if product.image %}
+                        <a href="#">
+                            <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}"
+                                style="height: 250px; width: 250px;">
+                        </a>
+                        {% else %}
+                        <a href="#">
+                            <img class="card-img-top img-fluid" src="/media/noimage.png" alt="{{ product.name }}"
+                                style="height: 250px; width: 250px;">
+                        </a>
+                        {% endif %}
+                        <div class="card-body pb-0">
+                            <p class="mb-0">{{ product.name }}</p>
+                        </div>
+                        <div class="card-footer bg-white pt-0 border-0 text-left">
+                            <div class="row">
+                                <div class="col">
+                                    <p class="lead mb-0 text-left font-weight-bold">&euro; {{ product.price }}</p>
+                                    {% if product.category %}
+                                    <p class="small mt-1 mb-0">
+                                        <a class="text-muted"
+                                            href="{% url 'products' %}?category={{ product.category.name }}">
+                                            <i class="fas fa-tag mr-1"></i>{{ product.category.name }}
+                                        </a>
+                                    </p>
+                                    {% endif %}
+                                    {% if product.rating %}
+                                    <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} /
+                                        10</small>
+                                    {% else %}
+                                    <small class="text-muted">No Rating</small>
+                                    {% endif %}
+                                    {% if request.user.is_superuser %}
+                                    <small class="ml-3">
+                                        <a href="#">Edit</a> |
+                                        <a class="text-danger" href="#">Delete</a>
+                                    </small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:1 %}
+                <div class="col-12 d-sm-none mb-5">
+                    <hr>
+                </div>
+                {% endif %}
+                {% if forloop.counter|divisibleby:2 %}
+                <div class="col-12 d-none d-sm-block d-md-block d-lg-none mb-5">
+                    <hr>
+                </div>
+                {% endif %}
+                {% if forloop.counter|divisibleby:3 %}
+                <div class="col-12 d-none d-lg-block d-xl-none mb-5">
+                    <hr>
+                </div>
+                {% endif %}
+                {% if forloop.counter|divisibleby:4 %}
+                <div class="col-12 d-none d-xl-block mb-5">
+                    <hr>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -4,8 +4,13 @@ html {
     height: 100%;
 }
 
+/* Main Page and utilities */
 .main-banner{
     width: 100%;
+}
+
+.text-black {
+    color: #000 !important;
 }
 
 .clearance-wrapper{
@@ -27,4 +32,45 @@ html {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+}
+
+/* from Bulma */
+.icon {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.logo-font {
+    text-transform: uppercase;
+}
+
+.main-logo-link:hover{
+    text-decoration: none;
+}
+
+.bg-black {
+    background: #000 !important;
+}
+
+.btn-black {
+    background: black;
+    color: white;
+}
+
+.category-name {
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+    padding: 10px;
+    color: #000;
+    font-size: 25px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.category-name:hover{
+    text-decoration: none;
+    color:#FC2947
 }

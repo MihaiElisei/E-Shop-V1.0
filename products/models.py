@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -11,6 +12,9 @@ class Category(models.Model):
 
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True)
+    is_popular = models.BooleanField(default=False)
+    image = models.ImageField(null=True, blank=True)
+    image_url = models.URLField(max_length=1024, null=True, blank=True)
     
     def get_url(self):
         return reverse('products_by_category', args=[self.slug])

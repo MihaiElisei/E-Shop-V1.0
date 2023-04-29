@@ -27,3 +27,17 @@ def all_products(request, category_slug=None):
         'products_count': product_count,
     }
     return render(request, 'products/products.html', context)
+
+
+def product_detail(request, product_id):
+    """ A view to show individual product details"""
+    try:
+        product = get_object_or_404(Product, pk=product_id)
+    except Exception as e:
+        raise e
+
+    context = {
+        'product': product,
+    }
+
+    return render(request, 'products/product_detail.html', context)

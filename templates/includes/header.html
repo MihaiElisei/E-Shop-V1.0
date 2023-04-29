@@ -32,7 +32,7 @@
     <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-lg-1 col-md-3 col-6">
-                <a href="{% url 'home' %}" class="brand-wrap main-logo-link ">
+                <a href="{% url 'home' %}" class="main-logo-link">
                     <h2 class="logo-font text-black">E-shop</h3>
                 </a> 
             </div>
@@ -42,11 +42,12 @@
                         <i class="fa fa-bars"></i> All Categories
                     </button>
                     <div class="dropdown-menu">
+                        <a href="{% url 'products' %}" class="dropdown-item">All Products</a>
                         {% for category in categories %}
                             <a class="dropdown-item" href="{{ category.get_url }}">{{ category.name }}</a>
                         {% endfor %}
                     </div>
-                </div> 
+                </div>
             </div> 
             <div class="col-lg col-md-4 col-sm-12 col">
                 <form method="GET" action="#">
@@ -73,17 +74,17 @@
                         <div>
                             {% if request.user.is_authenticated %}
                                 {% if request.user.is_superuser %}
-                                    <a href="#" class="btn btn-md">Product Management</a>
+                                    <a href="#" class="btn btn-md btn-black">Product Management</a>
                                 {% endif %}
-                                <a href="#" class="btn btn-md">My Profile</a>
-                                <a href="{% url 'account_logout' %}" class="btn btn-md">Logout</a>
+                                <a href="#" class="btn btn-md btn-black">My Profile</a>
+                                <a href="{% url 'account_logout' %}" class="btn btn-md btn-black">Logout</a>
                             {% else %}
-                                <a href="{% url 'account_signup' %}" class="btn btn-md">Register</a>
-                                <a href="{% url 'account_login' %}" class="btn btn-md">Login</a>
+                                <a href="{% url 'account_signup' %}" class="btn btn-md btn-black">Register</a>
+                                <a href="{% url 'account_login' %}" class="btn btn-md btn-black">Login</a>
                             {% endif %}
                         </div>
                     </div>
-                    <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link" href="#">
+                    <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} ml-5 mt-4" href="#">
                         <div class="icon icon-md">
                             <i class="fa fa-shopping-cart text-black" style="font-size: 20px;"></i>
                         </div>

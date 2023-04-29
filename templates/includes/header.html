@@ -1,0 +1,102 @@
+<nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTop4"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTop4">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Language</a>
+                    <ul class="dropdown-menu small">
+                        <li><a class="dropdown-item" href="#">English</a></li>
+                        <li><a class="dropdown-item" href="#">Franch</a></li>
+                        <li><a class="dropdown-item" href="#">Spanish</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"> EUR </a>
+                    <ul class="dropdown-menu small">
+                        <li><a class="dropdown-item" href="#">USD</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li><a href="#" class="nav-link"> <i class="fa fa-envelope"></i> Email </a></li>
+                <li><a href="#" class="nav-link"> <i class="fa fa-phone"></i> Call us </a></li>
+            </ul> 
+        </div> 
+    </div> 
+</nav>
+<div class="p-3">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-1 col-md-3 col-6">
+                <a href="{% url 'home' %}" class="brand-wrap main-logo-link ">
+                    <h2 class="logo-font text-black">E-shop</h3>
+                </a> 
+            </div>
+            <div class="col-lg col-sm col-md col-6 flex-grow-0">
+                <div class="category-wrap dropdown d-inline-block float-right">
+                    <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i> All Categories
+                    </button>
+                    <div class="dropdown-menu">
+                        <!-- Loop Categories -->
+                        <a class="dropdown-item" href="#">Category Name</a>
+                        
+                    </div>
+                </div> 
+            </div> 
+            <div class="col-lg col-md-4 col-sm-12 col">
+                <form method="GET" action="#">
+                    <div class="input-group">
+                        <input class="form-control border border-black rounded-0" type="text" name="q"
+                            placeholder="Search our site">
+                        <div class="input-group-append">
+                            <button class="form-control btn btn-black border border-black rounded-0"
+                                type="submit">
+                                <span class="icon">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </button>
+                            <a href="#" class="form-control btn btn-black border border-black rounded-0"
+                                style="margin-left: 5px;"><i class="fas fa-sync-alt"></i></a>
+                        </div>
+                    </div>
+                </form>
+            </div> 
+            <div class="col-lg-4 col-sm-6 col-8 order-2 order-lg-3">
+                <div class="d-flex justify-content-end mb-3 mb-lg-0">
+                    <div class="text-center">
+                        <small class="title text-muted">Welcome guest!(username)</small>
+                        <div>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_superuser %}
+                                    <a href="#" class="btn btn-md">Product Management</a>
+                                {% endif %}
+                                <a href="#" class="btn btn-md">My Profile</a>
+                                <a href="{% url 'account_logout' %}" class="btn btn-md">Logout</a>
+                            {% else %}
+                                <a href="{% url 'account_signup' %}" class="btn btn-md">Register</a>
+                                <a href="{% url 'account_login' %}" class="btn btn-md">Login</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link" href="#">
+                        <div class="icon icon-md">
+                            <i class="fa fa-shopping-cart text-black" style="font-size: 20px;"></i>
+                        </div>
+                        <p class="my-0">
+                            {% if grand_total %}
+                                ${{ grand_total|floatformat:2 }}
+                            {% else %}
+                                $0.00
+                            {% endif %}
+                        </p>
+                    </a>
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</div> 

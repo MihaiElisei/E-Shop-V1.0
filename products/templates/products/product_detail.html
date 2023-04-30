@@ -106,8 +106,13 @@
                                         cart</s></span> <i class="fas fa-shopping-cart"></i> </a>
                             <h6 class="text-danger text-right mt-1 text-uppercase">Out of stock</h6>
                             {% else %}
+                            {% if in_cart %}
+                            <button type="submit" class="btn btn-success rounded-0 mt-5"> <span class="text">Added to
+                                    cart</span> <i class="fas fa-check"></i> </button>
+                            {% else %}
                             <button type="submit" class="btn btn-black rounded-0 mt-5"> <span class="text">Add to
                                     cart</span> <i class="fas fa-shopping-cart"></i> </button>
+                            {% endif %}
                             {% endif %}
                         </div>
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">`

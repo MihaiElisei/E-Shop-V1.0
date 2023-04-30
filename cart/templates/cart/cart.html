@@ -40,9 +40,9 @@
                                                 {% endif %}
                                             </div>
                                             <div class="col-8">
-                                                <p class="title text-dark  d-inline">{{ cart_item.product.name }}</p>
+                                                <a href="{% url 'product_detail' cart_item.product.id %}"
+                                                    class="title text-dark  d-inline">{{ cart_item.product.name }}</a>
                                                 <br>
-
                                             </div>
                                         </div>
                                     </td>
@@ -74,7 +74,8 @@
                                     </td>
                                     <td>
                                         <div>
-                                            <a class="btn btn-sm remove-item btn-danger float-right" href="#">Remove</a>
+                                            <a class="btn btn-sm remove-item btn-danger float-right"
+                                                href="{% url 'remove_cart_item' cart_item.product.id %}">Remove</a>
                                         </div>
                                     </td>
                                 </tr>

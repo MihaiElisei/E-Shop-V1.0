@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.db.models.functions import Lower
 from django.db.models import Q
 from .models import Product, Category
+from cart.models import Cart, CartItem
+from cart.views import _cart_id
 
 # Create your views here.
 
@@ -19,16 +21,14 @@ def all_products(request, category_slug=None):
     if category_slug is not None:
         categories = get_object_or_404(
             Category, slug=category_slug
-            )
+        )
         products = Product.objects.filter(
             category=categories, is_available=True
-            )
-        product_count = products.count()
+        )
     else:
-        products = Product.objects.all().filter(is_available=True)
-        product_count = products.count()
+        products = Product.objects.all().filter(is_available=True).order_by('id')
 
-     # Search and sort products
+    # Search and sort products
     if request.GET:
         if 'sort' in request.GET:
             sortkey = request.GET['sort']
@@ -50,9 +50,10 @@ def all_products(request, category_slug=None):
                                ("You didn't enter any search criteria!"))
                 return redirect(reverse('products'))
 
-            queries = Q(name__icontains=query) | Q(description__icontains=query)  
+            queries = Q(name__icontains=query) | Q(
+                description__icontains=query)
             products = products.filter(queries)
-            
+
     current_sorting = f'{sort}_{direction}'
 
     context = {
@@ -68,11 +69,14 @@ def product_detail(request, product_id):
     """ A view to show individual product details"""
     try:
         product = get_object_or_404(Product, pk=product_id)
+        in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(
+            request), product=product).exists()   # Check if the item is in cart
     except Exception as e:
         raise e
 
     context = {
         'product': product,
+        'in_cart': in_cart,
     }
 
     return render(request, 'products/product_detail.html', context)

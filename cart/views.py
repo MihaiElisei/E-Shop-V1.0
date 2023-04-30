@@ -13,6 +13,7 @@ def view_cart(request, total=0, quantity=0, cart_items=None):
     """
     try:
         vat = 0
+        grand_total = 0
         cart = Cart.objects.get(cart_id=_cart_id(request))
         cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for cart_item in cart_items:
@@ -103,4 +104,16 @@ def remove_from_cart(request, product_id):
                 request, f'Removed {product.name} from your cart!')
     except Exception as e:
         messages.success(request, f'Error removing item: {e} from your cart!')
+    return redirect('view_cart')
+
+
+def remove_cart_item(request, product_id):
+    """ A view to remove items from the cart """
+
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    product = get_object_or_404(Product, id=product_id)
+    cart_item = CartItem.objects.get(product=product, cart=cart)
+
+    cart_item.delete()
+    messages.success(request, f'Removed {product.name} from your cart!')
     return redirect('view_cart')

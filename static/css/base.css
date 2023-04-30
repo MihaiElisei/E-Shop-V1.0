@@ -5,7 +5,7 @@ html {
 }
 
 /* Main Page and utilities */
-.main-banner{
+.main-banner {
     width: 100%;
 }
 
@@ -13,25 +13,27 @@ html {
     color: #000 !important;
 }
 
-.clearance-wrapper{
+.clearance-wrapper {
     background-color: #FC2947;
     height: 300px;
 }
-.deals-wrapper{
+
+.deals-wrapper {
     background-color: #7149C6;
     height: 300px;
 }
-.new-arrivals-wrapper{
+
+.new-arrivals-wrapper {
     background-color: #FE6244;
     height: 300px;
 }
 
-.main-subtitles{
+.main-subtitles {
     color: #fff;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
 
 /* from Bulma */
@@ -47,7 +49,7 @@ html {
     text-transform: uppercase;
 }
 
-.main-logo-link:hover{
+.main-logo-link:hover {
     text-decoration: none;
 }
 
@@ -70,7 +72,24 @@ html {
     font-family: 'Roboto', sans-serif;
 }
 
-.category-name:hover{
+.category-name:hover {
     text-decoration: none;
-    color:#FC2947
+    color: #FC2947
+}
+
+/* Images */
+
+.img-xs,
+.img-sm,
+.img-md,
+.img-lg {
+    -o-object-fit: cover;
+    object-fit: cover;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.img-sm {
+    width: 80px;
+    height: 80px;
 }

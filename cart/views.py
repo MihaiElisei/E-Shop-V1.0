@@ -56,7 +56,14 @@ def _cart_id(request):
 
 
 def add_to_cart(request, product_id):
-    """ A view that manages add items to the cart """
+    """ A view that manages add items to the cart
+        and products variation 
+     """
+
+    # Product Variations for colors and sizes
+    color = request.GET['color']
+    size = request.GET['size']
+    print(color, size)
 
     product = Product.objects.get(id=product_id)
     try:

@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block page_header %}
-    <div class="container header-container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
+<div class="container header-container">
+    <div class="row">
+        <div class="col"></div>
     </div>
+</div>
 {% endblock %}
 
 {% block content %}
@@ -58,18 +58,18 @@
                                 <h6>Product Color:</h6>
                                 <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
                                     <label class="btn btn-light">
-                                      <input type="radio" name="radio_color"> Silver
+                                        <input type="radio" name="radio_color"> Silver
                                     </label>
                                     <label class="btn btn-light">
-                                      <input type="radio" name="radio_color" > Gray
+                                        <input type="radio" name="radio_color"> Gray
                                     </label>
                                     <label class="btn btn-light active">
-                                      <input type="radio" name="radio_color checked"> Gold
+                                        <input type="radio" name="radio_color checked"> Gold
                                     </label>
                                     <label class="btn btn-light">
-                                      <input type="radio" name="radio_color"> Black
+                                        <input type="radio" name="radio_color"> Black
                                     </label>
-                                  </div> 
+                                </div>
                             </div>
                         </div>
                         <div class="mt-2 pt-3 col-12 mb-3">
@@ -77,18 +77,18 @@
                                 <h6>Select Size</h6>
                                 <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
                                     <label class="btn btn-light">
-                                      <input type="radio" name="radio_color"> S
+                                        <input type="radio" name="radio_color"> S
                                     </label>
                                     <label class="btn btn-light active">
-                                      <input type="radio" name="radio_color" checked> M
+                                        <input type="radio" name="radio_color" checked> M
                                     </label>
                                     <label class="btn btn-light">
-                                      <input type="radio" name="radio_color"> L
+                                        <input type="radio" name="radio_color"> L
                                     </label>
                                     <label class="btn btn-light">
-                                      <input type="radio" name="radio_color"> XL
+                                        <input type="radio" name="radio_color"> XL
                                     </label>
-                                  </div> 
+                                </div>
                             </div>
                         </div>
                         <hr class="w-100 mt-5">
@@ -101,13 +101,12 @@
                                 <span class="text-uppercase">Keep Shopping</span>
                             </a>
                             {% if product.stock <= 0 %}
-                                <a href="#" class="btn btn-danger rounded-0 mt-5"
-                                    style="pointer-events: none;"> <span class="text"><s>Add to
-                                            cart</s></span> <i class="fas fa-shopping-cart"></i> </a>
-                                <h6 class="text-danger text-right mt-1 text-uppercase">Out of stock</h6>
+                            <a href="#" class="btn btn-danger rounded-0 mt-5" style="pointer-events: none;"> <span
+                                    class="text"><s>Add to
+                                        cart</s></span> <i class="fas fa-shopping-cart"></i> </a>
+                            <h6 class="text-danger text-right mt-1 text-uppercase">Out of stock</h6>
                             {% else %}
-                                <button type="submit" class="btn btn-black rounded-0 mt-5"> <span
-                                    class="text">Add to
+                            <button type="submit" class="btn btn-black rounded-0 mt-5"> <span class="text">Add to
                                     cart</span> <i class="fas fa-shopping-cart"></i> </button>
                             {% endif %}
                         </div>

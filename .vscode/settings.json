@@ -23,5 +23,14 @@
    "files.autoSave": "off",
    "workbench.colorTheme": "Visual Studio Dark",
    "terminal.integrated.gpuAcceleration": "canvas",
-   "editor.defaultFormatter": "HookyQR.beautify"
+   "editor.defaultFormatter": "HookyQR.beautify",
+   "[python]": {
+      "editor.defaultFormatter": "ms-python.autopep8"
+   },
+   "python.formatting.provider": "none",
+   "emmet.showSuggestionsAsSnippets": true,
+   "files.associations": {
+      "*html": "html",
+      "*njk": "html"
+   }
 }

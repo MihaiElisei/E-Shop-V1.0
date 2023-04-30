@@ -84,7 +84,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} ml-5 mt-4" href="#">
+                    <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} ml-5 mt-4" href="{% url 'view_cart' %}">
                         <div class="icon icon-md">
                             <i class="fa fa-shopping-cart text-black" style="font-size: 20px;"></i>
                         </div>

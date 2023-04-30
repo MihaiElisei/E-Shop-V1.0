@@ -49,7 +49,8 @@
                                     <td>
                                         <div class="input-group input-spinner" style="width: 130px;">
                                             <div class="input-group-prepend">
-                                                <a class=" btn btn-sm btn-black rounded-0" href="#" id="button-plus"> <i
+                                                <a class=" btn btn-sm btn-black rounded-0"
+                                                    href="{% url 'remove_from_cart' cart_item.product.id %}"> <i
                                                         class="fa fa-minus"></i> </a>
                                             </div>
                                             <input type="text" class="form-control" value="{{ cart_item.quantity }}">

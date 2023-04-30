@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
 from .models import Cart, CartItem
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
@@ -79,4 +80,27 @@ def add_to_cart(request, product_id):
             cart=cart,
         )
         cart_item.save()
+    return redirect('view_cart')
+
+
+def remove_from_cart(request, product_id):
+    """ A view to remove items from the cart """
+
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    product = get_object_or_404(Product, id=product_id)
+    try:
+        cart_item = CartItem.objects.get(
+            product=product, cart=cart)
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+            messages.success(
+                request, f'Removed {product.name} from your cart!')
+
+        else:
+            cart_item.delete()
+            messages.success(
+                request, f'Removed {product.name} from your cart!')
+    except Exception as e:
+        messages.success(request, f'Error removing item: {e} from your cart!')
     return redirect('view_cart')

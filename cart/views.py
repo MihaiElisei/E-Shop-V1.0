@@ -89,6 +89,11 @@ def add_to_cart(request, product_id):
         )
     cart.save()
 
+    if product_variation:
+        messages.success(
+            request, f'Added {product.name} with color {product_variation[0]} and size {product_variation[1]} to your cart')
+    else:
+        messages.success(request, f'Added {product.name} to your cart')
     cart_item_exists = CartItem.objects.filter(
         product=product, cart=cart).exists()
 

@@ -94,6 +94,20 @@ html {
     height: 80px;
 }
 
+.btt-button {
+    height: 42px;
+    width: 42px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.btt-link,
+.update-link,
+.remove-item {
+    cursor: pointer;
+}
+
 /* ------------------------------- bootstrap toasts */
 
 .message-container {
@@ -105,10 +119,6 @@ html {
 
 .custom-toast {
     overflow: visible;
-}
-
-.toast-capper {
-    height: 2px;
 }
 
 .toast-capper {
@@ -158,10 +168,4 @@ html {
 
 .arrow-dark {
     border-bottom-color: #343a40 !important;
-}
-
-.cart-notification-wrapper {
-    height: 100px;
-    overflow-x: hidden;
-    overflow-y: auto;
 }

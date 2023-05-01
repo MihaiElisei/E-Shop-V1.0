@@ -1,48 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product, Variation
 from .models import Cart, CartItem
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
 
 
-def view_cart(request, total=0, quantity=0, cart_items=None):
-    """ A view that renders the cart contents page,
-        display all items from the cart 
-        and calculates the grand total for the cart
-    """
-    try:
-        vat = 0
-        grand_total = 0
-        cart = Cart.objects.get(cart_id=_cart_id(request))
-        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
-        for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
-            quantity += cart_item.quantity
-        vat = total / 100  # Set VAT at 1%
-
-        if total < settings.FREE_DELIVERY_THRESHOLD:
-            delivery = settings.STANDARD_DELIVERY_PRICE
-            free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - total
-        else:
-            delivery = 0
-            free_delivery_delta = 0
-
-        grand_total = delivery + total + vat
-    except ObjectDoesNotExist:
-        pass
-
-    context = {
-        'total': total,
-        'quantity': quantity,
-        'cart_items': cart_items,
-        'vat': vat,
-        'grand_total': grand_total,
-        'delivery': delivery,
-        'free_delivery_delta': free_delivery_delta,
-        'free_delivery_threshold': settings.FREE_DELIVERY_THRESHOLD,
-    }
-    return render(request, 'cart/cart.html', context)
+def view_cart(request):
+    """ A view that renders the cart contents page """
+    return render(request, 'cart/cart.html')
 
 
 def _cart_id(request):

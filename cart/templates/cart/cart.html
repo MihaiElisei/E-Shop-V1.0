@@ -32,16 +32,24 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-lg-4 col-md-6 col-sm-12">
                                                 {% if cart_item.product.image %}
                                                 <img src="{{ cart_item.product.image.url }}" class="img-sm">
                                                 {% else %}
                                                 <img src="/media/noimage.png" class="img-sm">
                                                 {% endif %}
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-lg-8 col-md-6 col-sm-12">
                                                 <a href="{% url 'product_detail' cart_item.product.id %}"
-                                                    class="title text-dark  d-inline">{{ cart_item.product.name }}</a>
+                                                    class="title text-dark  d-block">{{ cart_item.product.name }}</a>
+                                                <em class="text-muted small d-inline">
+                                                    {% if cart_item.variations.all %}
+                                                    {% for item in cart_item.variations.all %}
+                                                    {{ item.variation_category | capfirst }} :
+                                                    {{ item.variation_value | capfirst }} <br>
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                </em>
                                                 <br>
                                             </div>
                                         </div>
@@ -50,14 +58,18 @@
                                         <div class="input-group input-spinner" style="width: 130px;">
                                             <div class="input-group-prepend">
                                                 <a class=" btn btn-sm btn-black rounded-0"
-                                                    href="{% url 'remove_from_cart' cart_item.product.id %}"> <i
-                                                        class="fa fa-minus"></i> </a>
+                                                    href="{% url 'remove_from_cart' cart_item.product.id cart_item.id %}"
+                                                    id="button-plus"> <i class="fa fa-minus"></i> </a>
                                             </div>
                                             <input type="text" class="form-control" value="{{ cart_item.quantity }}">
                                             <div class="input-group-append">
                                                 <form action="{% url 'add_to_cart' cart_item.product.id %}"
                                                     method="POST">
                                                     {% csrf_token %}
+                                                    {% for item in cart_item.variations.all %}
+                                                    <input type="hidden" name="{{ item.variation_category | lower }}"
+                                                        value="{{ item.variation_value | capfirst }}">
+                                                    {% endfor %}
                                                     <button class="btn btn-sm btn-black rounded-0" type="submit"
                                                         id="button-minus"> <i class="fa fa-plus"
                                                             style="height: 25px;"></i> </button>
@@ -75,7 +87,7 @@
                                     <td>
                                         <div>
                                             <a class="btn btn-sm remove-item btn-danger float-right"
-                                                href="{% url 'remove_cart_item' cart_item.product.id %}">Remove</a>
+                                                href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}">Remove</a>
                                         </div>
                                     </td>
                                 </tr>

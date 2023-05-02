@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8qhsr1t%bkf9)e=h-wvve$1@7o64@+w^tau5cc^3wr7kgfv7zr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['8000-mihaielisei-e-shop-v10-kay9hpaevd.us2.codeanyapp.com']
 
 
 # Application definition
@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'checkout',
 
     # Other
-    'crispy_forms'
+    'crispy_forms',
+    'stripe',
 
 ]
 
@@ -176,8 +177,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Stripe
 FREE_DELIVERY_THRESHOLD = 100
 STANDARD_DELIVERY_PRICE = 50
+STRIPE_CURRENCY = 'usd'
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

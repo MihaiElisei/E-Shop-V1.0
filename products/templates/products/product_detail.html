@@ -52,7 +52,7 @@
                     {% csrf_token %}
                     <div class="form-row">
                         <!-- Set the variation selector only to Clothes -->
-                        {% if product.category.name == 'Clothes' %}
+                        {% if  product.variation_set.colors %}
                         <hr class="w-100">
                         <div class="mt-2 pt-3 col-12">
                             <div class="item-option-select ">
@@ -67,6 +67,8 @@
                                 </select>
                             </div>
                         </div>
+                        {% endif %}
+                        {% if  product.variation_set.sizes %}
                         <div class="mt-2 pt-3 col-12 mb-3">
                             <div class="item-option-select">
                                 <h6>Select Size</h6>

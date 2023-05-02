@@ -24,7 +24,6 @@ var style = {
         iconColor: '#dc3545'
     }
 };
-var card = elements.create('card', {
-    style: style
-});
+var card = elements.create('card', {style: style});
 card.mount('#card-element');
+

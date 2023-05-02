@@ -10,10 +10,10 @@ def cart_contents(request):
     vat = 0
     grand_total = 0
     try:
+        cart_items = CartItem.objects.all()
         delivery = settings.STANDARD_DELIVERY_PRICE
         free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD
-        cart = Cart.objects.get(cart_id=_cart_id(request))
-        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
@@ -28,7 +28,11 @@ def cart_contents(request):
 
         grand_total = delivery + total + vat
     except ObjectDoesNotExist:
-        pass
+        cart = Cart.objects.create(
+            # Create a new cart if there is no cart session created
+            cart_id=_cart_id(request)
+        )
+        cart.save()
 
     context = {
         'total': total,

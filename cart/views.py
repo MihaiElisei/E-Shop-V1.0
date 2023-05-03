@@ -100,8 +100,9 @@ def add_to_cart(request, product_id):
             cart_item.variations.clear()
             cart_item.variations.add(*product_variation)
         cart_item.save()
+    
     return redirect('view_cart')
-
+    
 
 def remove_from_cart(request, product_id, cart_item_id):
     """ A view to decrese items number from the cart """

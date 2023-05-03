@@ -2,6 +2,7 @@ import uuid
 from django_countries.fields import CountryField
 from django.db import models
 from products.models import Product
+from cart.models import CartItem
 from django.db.models import Sum
 from django.conf import settings
 # Create your models here.
@@ -65,7 +66,7 @@ class OrderLineItem(models.Model):
     order = models.ForeignKey(Order, null=False, blank=False,
                               on_delete=models.CASCADE,
                               related_name='lineitems')
-    product = models.ForeignKey(Product, null=False, blank=False,
+    product = models.ForeignKey(CartItem, null=False, blank=False,
                                 on_delete=models.CASCADE)
     product_variation = models.CharField(max_length=10, null=True,
                                          blank=True)

@@ -35,7 +35,7 @@
                                                 {% if cart_item.product.image %}
                                                 <img src="{{ cart_item.product.image.url }}" class="img-sm">
                                                 {% else %}
-                                                <img src="/media/noimage.png" class="img-sm">
+                                                <img src="{{ MEDIA_URL }}noimage.png" class="img-sm">
                                                 {% endif %}
                                             </div>
                                             <div class="col-lg-8 col-md-6 col-sm-12">

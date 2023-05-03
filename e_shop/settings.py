@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8qhsr1t%bkf9)e=h-wvve$1@7o64@+w^tau5cc^3wr7kgfv7zr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-mihaielisei-e-shop-v10-kay9hpaevd.us2.codeanyapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -181,8 +181,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 FREE_DELIVERY_THRESHOLD = 100
 STANDARD_DELIVERY_PRICE = 50
 STRIPE_CURRENCY = 'eur'
-STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'pk_test_51N2yKrJkGwVLZn0MlIIwQ9R5cjNwxylgpa3dxVFA8OQS58lsKNVoLpJWBoBsOZLxAQTue31Kc2kUZ5XEqC0qPsIU00KXfq2hGZ')
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'sk_test_51N2yKrJkGwVLZn0MWLDfYk4c5xavxLgtE0ekZXv2nkhMAenq732FrmKK2bIqOtuf3wo5y8uT9U4XkcPNizE4xsR10098NiXH3T')
+STRIPE_PUBLIC_KEY = os.getenv(
+    'STRIPE_PUBLIC_KEY', 'pk_test_51N2yKrJkGwVLZn0MlIIwQ9R5cjNwxylgpa3dxVFA8OQS58lsKNVoLpJWBoBsOZLxAQTue31Kc2kUZ5XEqC0qPsIU00KXfq2hGZ')
+STRIPE_SECRET_KEY = os.getenv(
+    'STRIPE_SECRET_KEY', 'sk_test_51N2yKrJkGwVLZn0MWLDfYk4c5xavxLgtE0ekZXv2nkhMAenq732FrmKK2bIqOtuf3wo5y8uT9U4XkcPNizE4xsR10098NiXH3T')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 # Default primary key field type

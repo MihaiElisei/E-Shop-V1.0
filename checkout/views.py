@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
 from .forms import OrderForm
-from products.models import Product
+from products.models import Product, Variation
 from .models import OrderLineItem, Order
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
@@ -15,12 +15,10 @@ import stripe
 def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
-    
     if request.method == 'POST':
-        print('POST')
         cart = Cart.objects.get(cart_id=_cart_id(request))
         cart_items = CartItem.objects.all()
-        print(cart_items)
+
         form_data = {
             'full_name': request.POST['full_name'],
             'email': request.POST['email'],
@@ -36,23 +34,31 @@ def checkout(request):
         if order_form.is_valid():
             order = order_form.save()
             for item in cart_items:
-                print(item.product.name)
+                product_variation = ''
+                if item.variations.all():
+                    product_variation_list = list(item.variations.all())
+                    product_variation_value = product_variation_list[0]
+                    product_variation_category = product_variation_list[1]
+                    product_variation = f"Color:{product_variation_value} and Size: {product_variation_category}"
+                else:
+                    product_variation = ''
                 try:
-                    
                     order_line_item = OrderLineItem(
                         order=order,
                         product=item.product,
                         quantity=item.quantity,
-
+                        product_variation=product_variation
                     )
+                    order_line_item.save()
                 except Product.DoesNotExist:
-                    messages.error(request, "One of the products was not found!")
+                    messages.error(
+                        request, "One of the products was not found!")
                     order.delete()
                     return redirect(reverse('view_cart'))
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse('checkout_success', args=[order.order_number]))
         else:
-           messages.error(request, 'There was an error with the form')
+            messages.error(request, 'There was an error with the form')
     else:
         cart = Cart.objects.get(cart_id=_cart_id(request))
         current_cart = cart_contents(request)
@@ -82,15 +88,14 @@ def checkout_success(request, order_number):
     Handle successful checkouts
     """
     cart = Cart.objects.get(cart_id=_cart_id(request))
+    cart_items = CartItem.objects.filter(cart=cart)
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. A confirmation \
         email will be sent to {order.email}.')
     cart = Cart.objects.get(cart_id=_cart_id(request))
-    
-    
-    
+    cart_items.delete()
     template = 'checkout/checkout_success.html'
     context = {
         'order': order,

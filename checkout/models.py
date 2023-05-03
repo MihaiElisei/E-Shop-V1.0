@@ -2,7 +2,6 @@ import uuid
 from django_countries.fields import CountryField
 from django.db import models
 from products.models import Product
-from cart.models import CartItem
 from django.db.models import Sum
 from django.conf import settings
 # Create your models here.
@@ -23,6 +22,8 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     delivery_cost = models.DecimalField(max_digits=6, decimal_places=2,
                                         null=False, default=0)
+    vat = models.DecimalField(max_digits=6, decimal_places=2,
+                              null=False, default=0)
     order_total = models.DecimalField(max_digits=10, decimal_places=2,
                                       null=False, default=0)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2,
@@ -42,11 +43,11 @@ class Order(models.Model):
         self.order_total = self.lineitems.aggregate(
             Sum('lineitem_total'))['lineitem_total__sum'] or 0
         if self.order_total < settings.FREE_DELIVERY_THRESHOLD:
-            sdp = settings.STANDARD_DELIVERY_PERCENTAGE
-            self.delivery_cost = self.order_total * sdp / 100
+            self.delivery_cost = settings.STANDARD_DELIVERY_PRICE
         else:
             self.delivery_cost = 0
-        self.grand_total = self.order_total + self.delivery_cost
+        self.vat = self.order_total / 100
+        self.grand_total = self.order_total + self.delivery_cost + self.vat
         self.save()
 
     def save(self, *args, **kwargs):
@@ -66,9 +67,9 @@ class OrderLineItem(models.Model):
     order = models.ForeignKey(Order, null=False, blank=False,
                               on_delete=models.CASCADE,
                               related_name='lineitems')
-    product = models.ForeignKey(CartItem, null=False, blank=False,
+    product = models.ForeignKey(Product, null=False, blank=False,
                                 on_delete=models.CASCADE)
-    product_variation = models.CharField(max_length=10, null=True,
+    product_variation = models.CharField(max_length=100, null=True,
                                          blank=True)
     quantity = models.IntegerField(null=False, blank=False, default=0)
     lineitem_total = models.DecimalField(max_digits=6, decimal_places=2,

@@ -169,3 +169,10 @@ html {
 .arrow-dark {
     border-bottom-color: #343a40 !important;
 }
+
+.box {
+    padding: 18px;
+    background: #fff;
+    border-radius: 0.37rem;
+    border: 1px solid #e4e4e4;
+}

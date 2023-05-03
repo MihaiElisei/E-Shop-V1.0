@@ -3,22 +3,25 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.conf import settings
 from .forms import OrderForm
-from products.models import Product, Variation
+from products.models import Product
 from .models import OrderLineItem, Order
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
 from cart.contexts import cart_contents
 import stripe
-import json
 
 
 @require_POST
 def cache_checkout_data(request):
     try:
+        cart = []
+        cart_items = CartItem.objects.all()
+        for item in cart_items:
+            cart.append(item.product.name)
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.PaymentIntent.modify(pid, metadata={
-            'cart': json.dumps(request.session.get('cart', {})),
+            'cart': str(cart),
             'save_info': request.POST.get('save_info'),
             'username': request.user,
         })
@@ -34,7 +37,6 @@ def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     if request.method == 'POST':
-        cart = Cart.objects.get(cart_id=_cart_id(request))
         cart_items = CartItem.objects.all()
 
         form_data = {
@@ -50,7 +52,10 @@ def checkout(request):
         }
         order_form = OrderForm(form_data)
         if order_form.is_valid():
-            order = order_form.save()
+            order = order_form.save(commit=False)
+            pid = request.POST.get('client_secret').split('_secret')[0]
+            order.stripe_pid = pid
+            order.save()
             for item in cart_items:
                 product_variation = ''
                 if item.variations.all():
@@ -59,7 +64,7 @@ def checkout(request):
                     product_variation_category = product_variation_list[1]
                     product_variation = f"Color:{product_variation_value} and Size: {product_variation_category}"
                 else:
-                    product_variation = ''
+                    product_variation = 'No product variations at this time!'
                 try:
                     order_line_item = OrderLineItem(
                         order=order,
@@ -78,7 +83,6 @@ def checkout(request):
         else:
             messages.error(request, 'There was an error with the form')
     else:
-        cart = Cart.objects.get(cart_id=_cart_id(request))
         current_cart = cart_contents(request)
         total = current_cart['grand_total']
         stripe_total = round(total * 100)

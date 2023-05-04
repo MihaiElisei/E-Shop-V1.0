@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from .models import UserProfile
 from checkout.models import Order
-from .forms import UserProfileForm
+from .forms import UserProfileForm, ProductForm
+
 # Create your views here.
 
 
@@ -51,4 +52,15 @@ def order_history(request, order_number):
         'from_profile': True,
     }
 
+    return render(request, template, context)
+
+
+def add_product(request):
+    """Add a product to the store"""
+
+    form = ProductForm
+    template = 'profiles/add_product.html'
+    context = {
+        'form': form
+    }
     return render(request, template, context)

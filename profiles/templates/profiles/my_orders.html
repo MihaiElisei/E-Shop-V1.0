@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'profiles/css/profiles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <hr>
+            <h2 class="logo-font mb-4">My Profile</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="list-group">
+                <a class="list-group-item active text-white bg-black" href="{% url 'profiles' %}"
+                    style="border: 1px solid #fff;">
+                    Dashboard </a>
+                <a class="list-group-item text-white bg-black" href="{% url 'my_orders' %}"
+                    style="border: 1px solid #fff;"> My Orders </a>
+                {% if request.user.is_superuser %}
+                <a href="#" class="list-group-item text-white bg-black">Product Management</a>
+                {% endif %}
+                <a class="list-group-item text-white bg-black" href="{% url 'account_change_password' %}"
+                    style="border: 1px solid #fff;"> Change Passowrd
+                </a>
+            </ul>
+            <br>
+        </div>
+        <div class="col-md-9">
+            <div style="text-align: center;">
+                <header class="card-header">
+                    <strong class="d-inline-block mr-3">Logged in as: </strong>
+                    <span>{{user.username}}</span>
+                </header>
+                <div class="card-body">
+                    <div class="row">
+                        <h2 class="text-muted mx-auto my-4">Order History</h2>
+                        <div class="order-history table-responsive">
+                            <table class="table table-sm table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>Order Number</th>
+                                        <th>Date</th>
+                                        <th>Items</th>
+                                        <th>Order Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'order_history' order.order_number %}"
+                                                title="{{ order.order_number }}">
+                                                {{ order.order_number|truncatechars:6 }}
+                                            </a>
+                                        </td>
+                                        <td>{{ order.date }}</td>
+                                        <td>
+                                            <ul class="list-unstyled">
+                                                {% for item in order.lineitems.all %}
+                                                <li class="small">
+                                                    {{ item.product.name }} x{{ item.quantity }}
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                        <td>${{ order.grand_total }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+<script type="text/javascript">
+    let countrySelected = $('#id_default_country').val();
+    if (!countrySelected) {
+        $('#id_default_country').css('color', '#aab7c4');
+    };
+    $('#id_default_country').change(function () {
+        countrySelected = $(this).val();
+        if (!countrySelected) {
+            $(this).css('color', '#aab7c4');
+        } else {
+            $(this).css('color', '#000');
+        }
+    });
+</script>
+
+{% endblock %}

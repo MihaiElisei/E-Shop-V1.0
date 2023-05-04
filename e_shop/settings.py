@@ -188,7 +188,7 @@ STRIPE_SECRET_KEY = os.getenv(
     'STRIPE_SECRET_KEY', 'sk_test_51N2yKrJkGwVLZn0MWLDfYk4c5xavxLgtE0ekZXv2nkhMAenq732FrmKK2bIqOtuf3wo5y8uT9U4XkcPNizE4xsR10098NiXH3T')
 STRIPE_WH_SECRET = os.getenv(
     'STRIPE_WH_SECRET', 'whsec_bdcd707c7082d73ba6df48ac4c364ba055fd2e8360a64c50c4b61d86023ac118')
-
+DEFAULT_FROM_EMAIL = 'eshop@exemple.com'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

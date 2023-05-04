@@ -69,14 +69,12 @@
             <div class="col-lg-5 col-sm-6 col-8 order-2 order-lg-3">
                 <div class="d-flex justify-content-end mb-3 mb-lg-0">
                     <div class="text-center">
-                        <small class="title text-muted">Welcome guest!(username)</small>
+                        <small class="title text-muted">Welcome {{ user.username | capfirst }}!</small>
                         <div>
                             {% if request.user.is_authenticated %}
-                            {% if request.user.is_superuser %}
-                            <a href="#" class="btn btn-md btn-black">Product Management</a>
-                            {% endif %}
-                            <a href="#" class="btn btn-md btn-black">My Profile</a>
-                            <a href="{% url 'account_logout' %}" class="btn btn-md btn-black">Logout</a>
+                            <a href="{% url 'profiles' %}" class="btn btn-md btn-black">My Profile</a>
+                            <a href="{% url 'account_logout' %}" class="btn btn-md btn-black"><i
+                                    class="fa fa-power-off"></i> Logout</a>
                             {% else %}
                             <a href="{% url 'account_signup' %}" class="btn btn-md btn-black">Register</a>
                             <a href="{% url 'account_login' %}" class="btn btn-md btn-black">Login</a>

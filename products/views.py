@@ -4,6 +4,7 @@ from django.db.models.functions import Lower
 from django.db.models import Q
 from .models import Product, Category, ReviewRating
 from .forms import ReviewForm
+from django.contrib.auth.decorators import login_required
 from cart.models import CartItem
 from cart.views import _cart_id
 
@@ -87,6 +88,7 @@ def product_detail(request, product_id):
     return render(request, 'products/product_detail.html', context)
 
 
+@login_required
 def submit_review(request, product_id):
     """A view to handle reviews for products"""
     url = request.META.get('HTTP_REFERER')

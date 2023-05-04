@@ -4,11 +4,13 @@ from django.contrib import messages
 from .models import UserProfile
 from checkout.models import Order
 from products.models import Product
+from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm, ProductForm
 
 # Create your views here.
 
 
+@login_required
 def profile(request):
     """Display the user profile"""
 
@@ -33,6 +35,7 @@ def profile(request):
     return render(request, template, context)
 
 
+@login_required
 def my_orders(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     orders = profile.orders.all()
@@ -43,6 +46,7 @@ def my_orders(request):
     return render(request, template, context)
 
 
+@login_required
 def order_history(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
 
@@ -60,14 +64,20 @@ def order_history(request, order_number):
     return render(request, template, context)
 
 
+@login_required
 def add_product(request):
     """Add a product to the store"""
+
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Sorry, only store admin can add a new product')
+        return redirect(reverse('home'))
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            product = form.save()
             messages.success(request, "Product added successfully!")
-            return redirect(reverse('add_product'))
+            return redirect(reverse('product_detail', args=[product.id]))
         else:
             messages.error(
                 request, "Faild to add product. Please review the form!")
@@ -80,8 +90,13 @@ def add_product(request):
     return render(request, template, context)
 
 
+@login_required
 def edit_product(request, product_id):
     """Edit a product in store"""
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Sorry, only store admin can edit a product')
+        return redirect(reverse('home'))
     product = get_object_or_404(Product, pk=product_id)
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
@@ -102,3 +117,17 @@ def edit_product(request, product_id):
         'product': product,
     }
     return render(request, template, context)
+
+
+@login_required
+def delete_product(request, product_id):
+    """Delete a product from store"""
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Sorry, only store admin can delete a product')
+        return redirect(reverse('home'))
+    product = get_object_or_404(Product, pk=product_id)
+    product.delete()
+    messages.success(request, "Product deleted!")
+
+    return redirect(reverse('products'))

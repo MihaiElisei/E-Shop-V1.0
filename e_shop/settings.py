@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -61,7 +60,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'stripe',
     'storages',
-    'django_heroku'
+
 ]
 
 MIDDLEWARE = [
@@ -193,7 +192,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-django_heroku.settings(locals(), staticfiles=False)
+
 if 'USE_AWS' in os.environ:
 
     # Cache control

@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'stripe',
     'storages',
-
+    'django_heroku'
 ]
 
 MIDDLEWARE = [
